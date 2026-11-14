@@ -1,0 +1,9 @@
+*.csv
+*.RData
+*.rds
+Data/
+.DS_Store
+.Rhistory
+.Rproj.user/
+__pycache__/
+.ipynb_checkpoints/
