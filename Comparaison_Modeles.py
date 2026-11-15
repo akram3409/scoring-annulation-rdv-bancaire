@@ -11,6 +11,8 @@ import torch
 from torch.utils.data import TensorDataset, DataLoader
 from sklearn.pipeline import Pipeline
 
+import warnings
+warnings.filterwarnings("ignore")
 # %%
 data = pd.read_csv("Data_nettoye2.csv")
 data.head()
@@ -213,7 +215,13 @@ best_seuil = thresh[np.argmax(f1)]
 
 print(f"Meilleurs params Val : max_depth={best_params[0]}, min_samples_leaf={best_params[1]}")
 evaluer_modele("RF 3 : Optimisée", y_test, best_rf.predict_proba(X_test_prep)[:, 1], best_seuil, time.perf_counter() - t0)
+#%% Importance des variables de la meilleure Random Forest (Top 10)
 
+noms_variables = [nom.split("__")[-1] for nom in preprocessor.get_feature_names_out()]
+importances = pd.Series(best_rf.feature_importances_, index=noms_variables).sort_values(ascending=False)
+
+print("\nTop 10 des variables les plus importantes (RF Optimisée) :")
+print(importances.head(10).round(4).to_string())
 # %%
 # ==============================================================================
 # RDN
